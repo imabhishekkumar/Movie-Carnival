@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Movie Time</string>
+    <string name="sort_popularity">Order by Popularity</string>
+    <string name="sort_ratings">Order by Ratings</string>
+</resources>
