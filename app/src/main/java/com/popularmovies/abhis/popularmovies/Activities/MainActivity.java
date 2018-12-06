@@ -5,7 +5,11 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,7 +35,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+implements LoaderManager.LoaderCallbacks<String> {
 
     private RecyclerView mRecyclerView;
     private MovieAdapter movieAdapter;
@@ -38,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<MovieData> movieList;
 
     android.support.v7.app.ActionBar actionBar;
-
+    private static final int LOADER= 2;
+    private static final String LOADER_ORDER_KEY="order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,7 @@ actionBar.setTitle("  Movie Time");
 actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFEB3B")));
 actionBar.setDisplayShowHomeEnabled(true);
 actionBar.setIcon(R.drawable.movie_tickets);
-
+        getSupportLoaderManager().initLoader(LOADER, null, this);
         mRecyclerView = findViewById(R.id.recyclerViewID);
         mRecyclerView.setHasFixedSize(true);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -64,7 +71,23 @@ actionBar.setIcon(R.drawable.movie_tickets);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             mRecyclerView.setLayoutManager(gridLayoutManager);
         }
-        movieList = get_movies(buildURL(Constants.SORT_BY_POPULAR));
+        updateUI(Constants.SORT_BY_POPULAR);
+
+
+    }
+
+    private void updateUI(String order) {
+        Bundle queryBundle = new Bundle();
+        queryBundle.putString(LOADER_ORDER_KEY,order);
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> loader = loaderManager.getLoader(LOADER);
+
+        if(loader==null){
+            loaderManager.initLoader(LOADER, queryBundle, this);
+        }else{
+            loaderManager.restartLoader(LOADER, queryBundle, this);
+        }
+
 
     }
 
@@ -78,10 +101,10 @@ actionBar.setIcon(R.drawable.movie_tickets);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()== R.id.sort_ratings)
-            movieList = get_movies(buildURL(Constants.SORT_BY_HIGHEST_RATED));
-        else
-            movieList = get_movies(buildURL(Constants.SORT_BY_POPULAR));
 
+            updateUI(Constants.SORT_BY_HIGHEST_RATED);
+        else
+            updateUI(Constants.SORT_BY_POPULAR);
 
         return super.onOptionsItemSelected(item);
     }
@@ -130,8 +153,10 @@ actionBar.setIcon(R.drawable.movie_tickets);
         queue.add(arrayRequest);
         return movieList;
     }
-   // https://api.themoviedb.org/3/movie/157336/videos?api_key=
+
+
     public String buildURL(String order){
+
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
                 .authority(Constants.BASE_URL)
@@ -141,6 +166,42 @@ actionBar.setIcon(R.drawable.movie_tickets);
                 .appendQueryParameter(Constants.API_PARAM, Constants.KEY);
         String myUrl = builder.build().toString();
         return myUrl;
+
+    }
+
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int i, final Bundle bundle) {
+
+        return new AsyncTaskLoader<String>(this) {
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+                Toast.makeText(getContext(),"Loading in background",Toast.LENGTH_SHORT).show();
+                forceLoad();
+                  }
+
+            @Nullable
+            @Override
+
+            public String loadInBackground() {
+                String order = bundle.getString(LOADER_ORDER_KEY);
+
+                movieList = get_movies(buildURL(order));
+//                Toast.makeText(getContext(),"Running in background",Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String s) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
 
     }
 }

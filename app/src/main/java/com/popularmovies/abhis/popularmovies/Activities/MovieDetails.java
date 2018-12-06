@@ -6,12 +6,19 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,8 +40,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class MovieDetails extends AppCompatActivity {
-    private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV;
+public class MovieDetails extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<String> {
+    private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV,TrailerTV,ReviewTV;
     private ImageView moviePosterIV,bannerIV;
     private RequestQueue queue;
     private RecyclerView mRecyclerView,mReviewRecyclerView;
@@ -43,6 +51,7 @@ public class MovieDetails extends AppCompatActivity {
     private String Key;
     private ArrayList<TrailerData> VideoList;
     private ArrayList<ReviewData> ReviewList;
+    private static final int LOADER= 4;
     android.support.v7.app.ActionBar actionBar;
 
     @Override
@@ -53,6 +62,8 @@ public class MovieDetails extends AppCompatActivity {
         movieDetailsTV= findViewById(R.id.movieDetialsID);
         movieVoteTV= findViewById(R.id.movieVoteID);
         movieReleasedTV= findViewById(R.id.movieReleasedID);
+        TrailerTV=findViewById(R.id.TrailerTV);
+        ReviewTV=findViewById(R.id.ReviewTV);
         moviePosterIV= findViewById(R.id.moviePosterID);
         bannerIV= findViewById(R.id.banner);
         queue = Volley.newRequestQueue(this);
@@ -70,6 +81,8 @@ public class MovieDetails extends AppCompatActivity {
         movieDetailsTV.setText(intent.getStringExtra("movie_description"));
         movieVoteTV.setText(intent.getStringExtra("movie_ratings"));
         actionBar.setTitle(intent.getStringExtra("movie_name"));
+        TrailerTV.setVisibility(View.INVISIBLE);
+        ReviewTV.setVisibility(View.INVISIBLE);
         Picasso.get()
                 .load(intent.getStringExtra("movie_poster"))
                 .placeholder(R.drawable.loading)
@@ -83,9 +96,17 @@ buildURL(intent.getStringExtra("movie_id"));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
        mReviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         Key=intent.getStringExtra("movie_id");
-        VideoList= getMovieKey(buildTrailerURL());
-        ReviewList=getTrailer(buildReviewURL());
+        LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> loader = loaderManager.getLoader(LOADER);
 
+        if(loader==null){
+            loaderManager.initLoader(LOADER, null, this);
+        }else{
+            loaderManager.restartLoader(LOADER, null, this);
+        }
+      /*  VideoList= getMovieKey(buildTrailerURL());
+        ReviewList=getTrailer(buildReviewURL());
+*/
     }
 
     private ArrayList<ReviewData> getTrailer(String url) {
@@ -113,7 +134,8 @@ buildURL(intent.getStringExtra("movie_id"));
                     mReviewRecyclerView.setAdapter(reviewAdapter);
                     reviewAdapter.notifyDataSetChanged();
 
-
+                    if(ReviewList.size()!=0)
+                        ReviewTV.setVisibility(View.VISIBLE);
 
 
                 } catch (JSONException e) {
@@ -139,7 +161,7 @@ buildURL(intent.getStringExtra("movie_id"));
         return builder.build().toString();
 
     }
-//1C1C1C
+
     public String buildTrailerURL(){
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
@@ -189,7 +211,8 @@ buildURL(intent.getStringExtra("movie_id"));
                     mRecyclerView.setAdapter(trailerAdapter);
                     trailerAdapter.notifyDataSetChanged();
 
-
+                    if(VideoList.size()!=0)
+                        TrailerTV.setVisibility(View.VISIBLE);
 
 
                 } catch (JSONException e) {
@@ -203,8 +226,40 @@ buildURL(intent.getStringExtra("movie_id"));
             }
         });
         queue.add(arrayRequest);
+
         return VideoList;
     }
 
 
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new AsyncTaskLoader<String>(this) {
+            @Override
+            protected void onStartLoading() {
+                super.onStartLoading();
+
+
+                forceLoad();
+            }
+            @Nullable
+            @Override
+            public String loadInBackground() {
+
+                getMovieKey(buildTrailerURL());
+                getTrailer(buildReviewURL());
+                return null;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String s) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+
+    }
 }

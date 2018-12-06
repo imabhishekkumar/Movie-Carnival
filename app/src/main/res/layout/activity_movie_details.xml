@@ -98,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/moviePosterID" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/TrailerTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -122,10 +122,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.387"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/TrailerTV" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/ReviewTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -149,7 +149,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/ReviewTV" />
 
 </android.support.constraint.ConstraintLayout>
 </ScrollView>
