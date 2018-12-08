@@ -3,4 +3,8 @@
     <string name="sort_popularity">Order by Popularity</string>
     <string name="sort_ratings">Order by Ratings</string>
     <string name="sort_fav">Favourites</string>
+    <string name="reviews">Reviews</string>
+    <string name="imagebtn">Imagebtn</string>
+    <string name="trailer">Trailer</string>
+    <string name="overview">Overview</string>
 </resources>
