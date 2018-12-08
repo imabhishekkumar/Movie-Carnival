@@ -2,7 +2,7 @@ package com.popularmovies.abhis.popularmovies.Utils;
 
 public class Constants {
 
-    final public static String KEY = "ffb376532eb8191f70f30d69fbc249c1";
+    final public static String KEY = "";
 
     final public static String BASE_URL= "api.themoviedb.org";
 
