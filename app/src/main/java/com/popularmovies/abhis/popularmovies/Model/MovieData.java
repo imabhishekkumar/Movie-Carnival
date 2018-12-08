@@ -1,14 +1,32 @@
 package com.popularmovies.abhis.popularmovies.Model;
 
-import java.io.Serializable;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+@Entity(tableName = "moviesfav")
 public class MovieData implements Serializable {
+    @PrimaryKey
+    @NonNull
+    private String movieID;
     private String movieTitle;
     private String movieDesc;
     private String movieImg;
     private String movieRating;
     private String movieRelease;
-    private String movieID;
+
+
+    public MovieData(String movieTitle, String movieDesc, String movieImg, String movieRating, String movieRelease, String movieID) {
+        this.movieTitle = movieTitle;
+        this.movieDesc = movieDesc;
+        this.movieImg = movieImg;
+        this.movieRating = movieRating;
+        this.movieRelease = movieRelease;
+        this.movieID = movieID;
+    }
+
+
 
     public MovieData() {
     }

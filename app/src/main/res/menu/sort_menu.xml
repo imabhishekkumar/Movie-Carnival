@@ -5,5 +5,7 @@
        />
     <item android:id="@+id/sort_ratings"
         android:title="@string/sort_ratings" />
+    <item android:id="@+id/sort_fav"
+        android:title="@string/sort_fav" />
 
 </menu>

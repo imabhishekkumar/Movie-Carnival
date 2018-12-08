@@ -30,4 +30,6 @@ dependencies {
     implementation 'com.dubsmash.volley:library:2.0.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.commit451:endlessrecyclerviewonscrolllistener:1.0.0'
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 }

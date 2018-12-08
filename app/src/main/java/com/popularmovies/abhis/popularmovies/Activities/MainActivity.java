@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.popularmovies.abhis.popularmovies.Database.MovieDatabase;
 import com.popularmovies.abhis.popularmovies.Model.MovieData;
 import com.popularmovies.abhis.popularmovies.R;
 import com.popularmovies.abhis.popularmovies.Utils.Constants;
@@ -42,7 +43,7 @@ implements LoaderManager.LoaderCallbacks<String> {
     private MovieAdapter movieAdapter;
     private RequestQueue queue;
     private ArrayList<MovieData> movieList;
-
+    private MovieDatabase movieDatabase;
     android.support.v7.app.ActionBar actionBar;
     private static final int LOADER= 2;
     private static final String LOADER_ORDER_KEY="order";
@@ -54,7 +55,7 @@ implements LoaderManager.LoaderCallbacks<String> {
         queue = Volley.newRequestQueue(this);
 
         movieList = new ArrayList<>();
-
+        movieDatabase = MovieDatabase.getInstance(MainActivity.this);
 actionBar = getSupportActionBar();
 actionBar.setTitle("  Movie Time");
 actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFEB3B")));
@@ -75,6 +76,7 @@ actionBar.setIcon(R.drawable.movie_tickets);
 
 
     }
+
 
     private void updateUI(String order) {
         Bundle queryBundle = new Bundle();
@@ -103,69 +105,98 @@ actionBar.setIcon(R.drawable.movie_tickets);
         if (item.getItemId()== R.id.sort_ratings)
 
             updateUI(Constants.SORT_BY_HIGHEST_RATED);
-        else
+        else if(item.getItemId()== R.id.sort_popularity)
             updateUI(Constants.SORT_BY_POPULAR);
+        else
+            showFav();
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void showFav() {
+        if(movieList != null){
+            movieList.clear();
+        }
+        for (int i = 0; i < movieDatabase.moviesDao().getAllMovies().size(); i++) {
+            MovieData result = new MovieData();
+            result.setMovieTitle(movieDatabase.moviesDao().getAllMovies().get(i).getMovieTitle());
+            result.setMovieRelease(movieDatabase.moviesDao().getAllMovies().get(i).getMovieRelease());
+            result.setMovieRating(movieDatabase.moviesDao().getAllMovies().get(i).getMovieRating());
+            result.setMovieDesc(movieDatabase.moviesDao().getAllMovies().get(i).getMovieDesc());
+            result.setMovieID(movieDatabase.moviesDao().getAllMovies().get(i).getMovieID());
+            result.setMovieImg(movieDatabase.moviesDao().getAllMovies().get(i).getMovieImg());
+
+            movieList.add(result);
+        }
+        movieAdapter = new MovieAdapter(MainActivity.this, movieList);
+        mRecyclerView.setAdapter(movieAdapter);
+        movieAdapter.notifyDataSetChanged();
+
+
+    }
+
     public ArrayList<MovieData> get_movies(String url) {
+
 
         movieList.clear();
 
-        JsonObjectRequest arrayRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
+            JsonObjectRequest arrayRequest = new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
 
-                try {
-                    JSONArray movieArray = response.getJSONArray(Constants.DEFAULT_KEY);
+                    try {
+                        JSONArray movieArray = response.getJSONArray(Constants.DEFAULT_KEY);
 
-                    for (int i = 0; i < movieArray.length(); i++) {
+                        for (int i = 0; i < movieArray.length(); i++) {
 
-                        JSONObject movieObj = movieArray.getJSONObject(i);
-                        MovieData movieData= new MovieData();
-                        movieData.setMovieTitle(movieObj.getString(Constants.TITLE_KEY));
-                        movieData.setMovieImg(Constants.BASE_POSTER_URL + movieObj.getString(Constants.POSTER_KEY));
-                        movieData.setMovieID(movieObj.getString(Constants.ID));
-                        movieData.setMovieDesc(movieObj.getString(Constants.SYMBOSIS_KEY));
-                        movieData.setMovieRating(movieObj.getString(Constants.RATING_KEY));
-                        movieData.setMovieRelease(movieObj.getString(Constants.RELEASE_KEY));
-                        movieList.add(movieData);
+                            JSONObject movieObj = movieArray.getJSONObject(i);
+                            MovieData movieData = new MovieData();
+                            movieData.setMovieTitle(movieObj.getString(Constants.TITLE_KEY));
+                            movieData.setMovieImg(Constants.BASE_POSTER_URL + movieObj.getString(Constants.POSTER_KEY));
+                            movieData.setMovieID(movieObj.getString(Constants.ID));
+                            movieData.setMovieDesc(movieObj.getString(Constants.SYMBOSIS_KEY));
+                            movieData.setMovieRating(movieObj.getString(Constants.RATING_KEY));
+                            movieData.setMovieRelease(movieObj.getString(Constants.RELEASE_KEY));
+                            movieList.add(movieData);
 
+                        }
+                        movieAdapter = new MovieAdapter(MainActivity.this, movieList);
+                        mRecyclerView.setAdapter(movieAdapter);
+                        movieAdapter.notifyDataSetChanged();
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    movieAdapter = new MovieAdapter(MainActivity.this, movieList);
-                    mRecyclerView.setAdapter(movieAdapter);
-                    movieAdapter.notifyDataSetChanged();
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Error", error.getMessage());
-            }
-        });
-        queue.add(arrayRequest);
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Error", error.getMessage());
+                }
+            });
+            queue.add(arrayRequest);
+
+
+
+
         return movieList;
     }
 
 
     public String buildURL(String order){
 
-        Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
-                .authority(Constants.BASE_URL)
-                .appendPath("3")
-                .appendPath("movie")
-                .appendPath(order)
-                .appendQueryParameter(Constants.API_PARAM, Constants.KEY);
-        String myUrl = builder.build().toString();
-        return myUrl;
+
+            Uri.Builder builder = new Uri.Builder();
+            builder.scheme("https")
+                    .authority(Constants.BASE_URL)
+                    .appendPath("3")
+                    .appendPath("movie")
+                    .appendPath(order)
+                    .appendQueryParameter(Constants.API_PARAM, Constants.KEY);
+            String myUrl = builder.build().toString();
+            return myUrl;
+
 
     }
 
