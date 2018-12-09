@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#212121"
-        tools:context=".Activities.MovieDetails">
+        tools:context=".activities.MovieDetails">
 
         <ImageView
             android:id="@+id/banner"

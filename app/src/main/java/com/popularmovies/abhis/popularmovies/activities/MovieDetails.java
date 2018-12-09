@@ -1,4 +1,4 @@
-package com.popularmovies.abhis.popularmovies.Activities;
+package com.popularmovies.abhis.popularmovies.activities;
 
 
 import android.content.Intent;
@@ -16,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,9 +47,9 @@ import java.util.Objects;
 
 public class MovieDetails extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<String> {
-    private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV,TrailerTV,ReviewTV;
+    private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV, trailerTV, reviewTV;
     private ImageView moviePosterIV,bannerIV;
-    private ImageButton movie_favourite;
+    private ImageButton movieFavourite;
     private RequestQueue queue;
     private RecyclerView mRecyclerView,mReviewRecyclerView;
     private MovieTrailerAdapter trailerAdapter;
@@ -62,7 +61,7 @@ public class MovieDetails extends AppCompatActivity
     private MovieDatabase movieDatabase;
     private MovieData moviesResultObject;
     private static final int LOADER= 4;
-    private int movieID,position;
+    private int movieID;
 
     android.support.v7.app.ActionBar actionBar;
 
@@ -74,11 +73,11 @@ public class MovieDetails extends AppCompatActivity
         movieDetailsTV= findViewById(R.id.movieDetialsID);
         movieVoteTV= findViewById(R.id.movieVoteID);
         movieReleasedTV= findViewById(R.id.movieReleasedID);
-        TrailerTV=findViewById(R.id.TrailerTV);
-        ReviewTV=findViewById(R.id.ReviewTV);
+        trailerTV =findViewById(R.id.TrailerTV);
+        reviewTV =findViewById(R.id.ReviewTV);
         moviePosterIV= findViewById(R.id.moviePosterID);
         bannerIV= findViewById(R.id.banner);
-        movie_favourite= findViewById(R.id.button);
+        movieFavourite = findViewById(R.id.button);
         queue = Volley.newRequestQueue(this);
         mRecyclerView = findViewById(R.id.trailer_recyclerViewID);
         mRecyclerView.setHasFixedSize(true);
@@ -100,8 +99,8 @@ public class MovieDetails extends AppCompatActivity
         movieDetailsTV.setText(movieDesc);
         movieVoteTV.setText(movieRating);
         actionBar.setTitle(movieTitle);
-        TrailerTV.setVisibility(View.INVISIBLE);
-        ReviewTV.setVisibility(View.INVISIBLE);
+        trailerTV.setVisibility(View.INVISIBLE);
+        reviewTV.setVisibility(View.INVISIBLE);
 
         movieDatabase = MovieDatabase.getInstance(MovieDetails.this);
         Picasso.get()
@@ -112,37 +111,37 @@ public class MovieDetails extends AppCompatActivity
                 .load(moviePoster)
                 .placeholder(R.drawable.loading)
                 .into(bannerIV);
-buildURL(intent.getStringExtra("movie_id"));
+        buildURL(intent.getStringExtra("movie_id"));
 
-moviesInDatabaseList = movieDatabase.moviesDao().getAllMovies();
-for(int i = 0; i <moviesInDatabaseList.size();i++)
-{
+        moviesInDatabaseList = (List<MovieData>) movieDatabase.moviesDao().getAllMovies();
+        for(int i = 0; i <moviesInDatabaseList.size();i++)
+    {
     if(Objects.equals(String.valueOf(movieID),moviesInDatabaseList.get(i).getMovieID()))
     {
-        movie_favourite.setBackgroundResource(R.drawable.like);
+        movieFavourite.setBackgroundResource(R.drawable.like);
     }
 
-}
+    }
 
 
-movie_favourite.setOnClickListener(new View.OnClickListener() {
+movieFavourite.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        moviesInDatabaseList = movieDatabase.moviesDao().getAllMovies();
+        moviesInDatabaseList = (List<MovieData>) movieDatabase.moviesDao().getAllMovies();
         MovieData moviesResultObject = new MovieData(movieTitle,movieDesc,moviePoster,movieRating,movieRelease,String.valueOf(movieID));
         int i = 0;
         do{
             if(moviesInDatabaseList.size() == 0){
-                Toast.makeText(view.getContext(),"Movie added to Favourites", Toast.LENGTH_SHORT).show();
-                movie_favourite.setBackgroundResource(R.drawable.like);
+                Toast.makeText(view.getContext(),Constants.ADDED_FAV, Toast.LENGTH_SHORT).show();
+                movieFavourite.setBackgroundResource(R.drawable.like);
                 movieDatabase.moviesDao().insertMovie(moviesResultObject);
 
                 break;
             }
 
             if(Objects.equals(moviesResultObject.getMovieID(), moviesInDatabaseList.get(i).getMovieID())){
-                Toast.makeText(view.getContext(),"Movie deleted from Favourites", Toast.LENGTH_SHORT).show();
-                movie_favourite.setBackgroundResource(R.drawable.unlike);
+                Toast.makeText(view.getContext(),Constants.REMOVED_FAV, Toast.LENGTH_SHORT).show();
+                movieFavourite.setBackgroundResource(R.drawable.unlike);
                 movieDatabase.moviesDao().deleteMovies(moviesResultObject);
 
 
@@ -151,7 +150,7 @@ movie_favourite.setOnClickListener(new View.OnClickListener() {
 
             if(i == (moviesInDatabaseList.size() - 1)){
                 Toast.makeText(view.getContext(),"Movie added to Favourites", Toast.LENGTH_SHORT).show();
-                movie_favourite.setBackgroundResource(R.drawable.like);
+                movieFavourite.setBackgroundResource(R.drawable.like);
                 movieDatabase.moviesDao().insertMovie(moviesResultObject);
 
                 break;
@@ -206,7 +205,7 @@ movie_favourite.setOnClickListener(new View.OnClickListener() {
                     reviewAdapter.notifyDataSetChanged();
 
                     if(ReviewList.size()!=0)
-                        ReviewTV.setVisibility(View.VISIBLE);
+                        reviewTV.setVisibility(View.VISIBLE);
 
 
                 } catch (JSONException e) {
@@ -284,7 +283,7 @@ movie_favourite.setOnClickListener(new View.OnClickListener() {
                     trailerAdapter.notifyDataSetChanged();
 
                     if(VideoList.size()!=0)
-                        TrailerTV.setVisibility(View.VISIBLE);
+                        trailerTV.setVisibility(View.VISIBLE);
 
 
                 } catch (JSONException e) {

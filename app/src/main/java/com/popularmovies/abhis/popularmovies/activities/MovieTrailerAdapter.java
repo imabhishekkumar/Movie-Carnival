@@ -1,4 +1,4 @@
-package com.popularmovies.abhis.popularmovies.Activities;
+package com.popularmovies.abhis.popularmovies.activities;
 
 import android.content.Context;
 import android.content.Intent;

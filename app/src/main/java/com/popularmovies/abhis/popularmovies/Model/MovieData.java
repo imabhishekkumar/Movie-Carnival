@@ -1,6 +1,7 @@
 package com.popularmovies.abhis.popularmovies.Model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -27,7 +28,7 @@ public class MovieData implements Serializable {
     }
 
 
-
+    @Ignore
     public MovieData() {
     }
     public String getMovieID() {

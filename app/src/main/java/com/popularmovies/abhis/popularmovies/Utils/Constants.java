@@ -30,4 +30,9 @@ public class Constants {
 
     final public static String RATING_KEY= "vote_average";
 
+
+    public static final String ADDED_FAV = "Movie added to Favourites" ;
+    public static final String REMOVED_FAV = "Movie removed to Favourites" ;
+
+    public static final String FAVORITES ="favourites" ;
 }

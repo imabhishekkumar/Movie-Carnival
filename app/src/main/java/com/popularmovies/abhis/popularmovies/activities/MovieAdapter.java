@@ -1,5 +1,6 @@
-package com.popularmovies.abhis.popularmovies.Activities;
+package com.popularmovies.abhis.popularmovies.activities;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -25,9 +26,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
 
 private String movieID=null;
 
-    public MovieAdapter(Context context, ArrayList<MovieData> data){
+    public MovieAdapter(Context context, LiveData<MovieData> data){
         mLayoutInflator= LayoutInflater.from(context);
-        mMovieDataArray=data;
+        mMovieDataArray= (List<MovieData>) data;
 
     }
 
@@ -59,9 +60,11 @@ private String movieID=null;
     }
 
     @Override
-    public int getItemCount() {
-
-        return mMovieDataArray.size();
+    public int getItemCount(){
+        if(mMovieDataArray != null){
+            return mMovieDataArray.size();
+        }
+        return 0;
     }
 
 
