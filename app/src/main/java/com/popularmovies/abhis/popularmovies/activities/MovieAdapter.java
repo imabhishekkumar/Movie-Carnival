@@ -16,7 +16,6 @@ import com.popularmovies.abhis.popularmovies.Model.MovieData;
 import com.popularmovies.abhis.popularmovies.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
@@ -26,7 +25,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
 
 private String movieID=null;
 
-    public MovieAdapter(Context context, LiveData<MovieData> data){
+    public MovieAdapter(Context context, List<MovieData> data){
         mLayoutInflator= LayoutInflater.from(context);
         mMovieDataArray= (List<MovieData>) data;
 
@@ -36,7 +35,7 @@ private String movieID=null;
     @Override
     public MovieAdapter.Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view= mLayoutInflator.from(viewGroup.getContext())
+        View view= LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.movie_row,
                             viewGroup,
                         false);
