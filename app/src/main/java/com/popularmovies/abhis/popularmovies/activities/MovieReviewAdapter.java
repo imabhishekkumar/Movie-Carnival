@@ -29,8 +29,7 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.review_row, viewGroup, false);
 
 
-
-        return new Holder(itemView,context);
+        return new Holder(itemView, context);
     }
 
     @Override
@@ -50,8 +49,8 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
 
         public Holder(@NonNull View itemView, Context context) {
             super(itemView);
-            mAuthor= itemView.findViewById(R.id.reviewer_TV);
-            mReview=itemView.findViewById(R.id.review_TV);
+            mAuthor = itemView.findViewById(R.id.reviewer_TV);
+            mReview = itemView.findViewById(R.id.review_TV);
         }
     }
 }

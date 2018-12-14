@@ -20,14 +20,14 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
     private Context context;
-    private List<MovieData>  mMovieDataArray;
+    private List<MovieData> mMovieDataArray;
     private LayoutInflater mLayoutInflator;
 
-private String movieID=null;
+    private String movieID = null;
 
-    public MovieAdapter(Context context, List<MovieData> data){
-        mLayoutInflator= LayoutInflater.from(context);
-        mMovieDataArray= (List<MovieData>) data;
+    public MovieAdapter(Context context, List<MovieData> data) {
+        mLayoutInflator = LayoutInflater.from(context);
+        mMovieDataArray = (List<MovieData>) data;
 
     }
 
@@ -35,37 +35,34 @@ private String movieID=null;
     @Override
     public MovieAdapter.Holder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view= LayoutInflater.from(viewGroup.getContext())
-                    .inflate(R.layout.movie_row,
-                            viewGroup,
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.movie_row,
+                        viewGroup,
                         false);
 
 
-        return new Holder(view,context);
+        return new Holder(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.Holder holder, int position) {
-    MovieData currentMovie = mMovieDataArray.get(position);
-    movieID= currentMovie.getMovieID();
+        MovieData currentMovie = mMovieDataArray.get(position);
+        movieID = currentMovie.getMovieID();
         Picasso.get()
                 .load(currentMovie.getMovieImg())
                 .placeholder(R.drawable.loading)
                 .into(holder.movieAvatar);
 
 
-
-
     }
 
     @Override
-    public int getItemCount(){
-        if(mMovieDataArray != null){
+    public int getItemCount() {
+        if (mMovieDataArray != null) {
             return mMovieDataArray.size();
         }
         return 0;
     }
-
 
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -79,26 +76,25 @@ private String movieID=null;
             context = ctx;
 
 
-            movieAvatar =itemView.findViewById(R.id.movieAvatar);
+            movieAvatar = itemView.findViewById(R.id.movieAvatar);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context= view.getContext();
-                    int pos= getAdapterPosition();
-                    Intent intent= new Intent(context,MovieDetails.class);
-                    intent.putExtra("movie_name",mMovieDataArray.get(pos).getMovieTitle());
-                    intent.putExtra("movie_id",mMovieDataArray.get(pos).getMovieID());
-                    intent.putExtra("movie_poster",mMovieDataArray.get(pos).getMovieImg());
-                    intent.putExtra("movie_ratings",mMovieDataArray.get(pos).getMovieRating());
-                    intent.putExtra("movie_description",mMovieDataArray.get(pos).getMovieDesc());
-                    intent.putExtra("movie_release",mMovieDataArray.get(pos).getMovieRelease());
+                    context = view.getContext();
+                    int pos = getAdapterPosition();
+                    Intent intent = new Intent(context, MovieDetails.class);
+                    intent.putExtra("movie_name", mMovieDataArray.get(pos).getMovieTitle());
+                    intent.putExtra("movie_id", mMovieDataArray.get(pos).getMovieID());
+                    intent.putExtra("movie_poster", mMovieDataArray.get(pos).getMovieImg());
+                    intent.putExtra("movie_ratings", mMovieDataArray.get(pos).getMovieRating());
+                    intent.putExtra("movie_description", mMovieDataArray.get(pos).getMovieDesc());
+                    intent.putExtra("movie_release", mMovieDataArray.get(pos).getMovieRelease());
 
                     context.startActivity(intent);
                 }
             });
-
 
 
         }

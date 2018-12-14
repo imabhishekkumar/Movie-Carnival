@@ -23,9 +23,10 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
     private List<TrailerData> mVideoDataArray;
     private LayoutInflater mLayoutInflator;
     private ImageView thumbnailImage;
+
     public MovieTrailerAdapter(Context context, ArrayList<TrailerData> data) {
-        mLayoutInflator= LayoutInflater.from(context);
-        mVideoDataArray=data;
+        mLayoutInflator = LayoutInflater.from(context);
+        mVideoDataArray = data;
     }
 
     @NonNull
@@ -34,30 +35,28 @@ public class MovieTrailerAdapter extends RecyclerView.Adapter<MovieTrailerAdapte
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.trailer_row, viewGroup, false);
 
 
-
-        return new Holder(itemView,context);
+        return new Holder(itemView, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, final int position) {
         TrailerData currentTrailer = mVideoDataArray.get(position);
-        final TrailerData mData= new TrailerData();
+        final TrailerData mData = new TrailerData();
         String TRAILER_THUMBNAIL_END = "/0.jpg";
         String TRAILER_THUMBNAIL_START = "https://img.youtube.com/vi/";
         Picasso.get()
                 .load(TRAILER_THUMBNAIL_START + currentTrailer.getKey() + TRAILER_THUMBNAIL_END)
                 .into(thumbnailImage);
 
-       thumbnailImage.setOnClickListener(new View.OnClickListener() {
+        thumbnailImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context = view.getContext();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(TRAILER_BASE_URL+mVideoDataArray.get(position).getKey()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(TRAILER_BASE_URL + mVideoDataArray.get(position).getKey()));
                 context.startActivity(intent);
 
             }
         });
-
 
 
     }

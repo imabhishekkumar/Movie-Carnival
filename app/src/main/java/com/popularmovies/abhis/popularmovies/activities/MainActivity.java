@@ -35,6 +35,7 @@ import com.popularmovies.abhis.popularmovies.Database.MovieDatabase;
 import com.popularmovies.abhis.popularmovies.Model.MovieData;
 import com.popularmovies.abhis.popularmovies.R;
 import com.popularmovies.abhis.popularmovies.Utils.Constants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,15 +44,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity
-        {
+public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private MovieAdapter movieAdapter;
     private RequestQueue queue;
     private MovieDatabase movieDatabase;
     android.support.v7.app.ActionBar actionBar;
-    private static final int LOADER= 2;
+    private static final int LOADER = 2;
     private String currentOrder = Constants.SORT_BY_POPULAR;
 
     @Override
@@ -66,63 +66,62 @@ public class MainActivity extends AppCompatActivity
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFEB3B")));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.movie_tickets);
-       // getSupportLoaderManager().initLoader(LOADER, null, this);
+        // getSupportLoaderManager().initLoader(LOADER, null, this);
         mRecyclerView = findViewById(R.id.recyclerViewID);
         mRecyclerView.setHasFixedSize(true);
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
             mRecyclerView.setLayoutManager(gridLayoutManager);
-        }
-        else {
+        } else {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
             mRecyclerView.setLayoutManager(gridLayoutManager);
         }
 
-        if (checkConnection(this)== true)
-        getMovies(buildURL(currentOrder));
+        if (checkConnection(this) == true)
+            getMovies(buildURL(currentOrder));
         else
-            Toast.makeText(this,"No internet connection",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
     }
 
 
-            private boolean checkConnection(Context applicationContext) {
-                ConnectivityManager conMgr = (ConnectivityManager) applicationContext
-                        .getSystemService(Context.CONNECTIVITY_SERVICE);
-                assert conMgr != null;
-                NetworkInfo i = conMgr.getActiveNetworkInfo();
-                if (i == null)
-                    return false;
-                if (!i.isConnected())
-                    return false;
-                if (!i.isAvailable())
-                    return false;
-                return true;
-            }
+    private boolean checkConnection(Context applicationContext) {
+        ConnectivityManager conMgr = (ConnectivityManager) applicationContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert conMgr != null;
+        NetworkInfo i = conMgr.getActiveNetworkInfo();
+        if (i == null)
+            return false;
+        if (!i.isConnected())
+            return false;
+        if (!i.isAvailable())
+            return false;
+        return true;
+    }
 
 
-            private void updateUI() {
+    private void updateUI() {
 
-         getMovies(buildURL(currentOrder));
+        getMovies(buildURL(currentOrder));
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater= getMenuInflater();
-        menuInflater.inflate(R.menu.sort_menu,menu);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.sort_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.sort_ratings:
                 currentOrder = Constants.SORT_BY_HIGHEST_RATED;
                 updateUI();
                 break;
             case R.id.sort_popularity:
-                currentOrder = Constants.SORT_BY_HIGHEST_RATED;
+                currentOrder = Constants.SORT_BY_POPULAR;
                 updateUI();
                 break;
             case R.id.sort_fav:
@@ -145,17 +144,17 @@ public class MainActivity extends AppCompatActivity
         currentOrder = savedInstanceState.getString("orderBy");
     }
 
-   private void showFavorites() {
+    private void showFavorites() {
 
-        final  LiveData<List<MovieData>> movie =  movieDatabase.moviesDao().getAllMovies();
+        final LiveData<List<MovieData>> movie = movieDatabase.moviesDao().getAllMovies();
         movie.observe(this, new Observer<List<MovieData>>() {
-         @Override
-        public void onChanged(@Nullable List<MovieData> movieData) {
-         movieAdapter = new MovieAdapter(MainActivity.this, movieData);
-         mRecyclerView.setAdapter(movieAdapter);
-         movieAdapter.notifyDataSetChanged();
-        }
- });
+            @Override
+            public void onChanged(@Nullable List<MovieData> movieData) {
+                movieAdapter = new MovieAdapter(MainActivity.this, movieData);
+                mRecyclerView.setAdapter(movieAdapter);
+                movieAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                         movieList.add(movieData);
 
                     }
-                    movieAdapter = new MovieAdapter(MainActivity.this,movieList);
+                    movieAdapter = new MovieAdapter(MainActivity.this, movieList);
                     mRecyclerView.setAdapter(movieAdapter);
                     movieAdapter.notifyDataSetChanged();
 
@@ -203,7 +202,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public String buildURL(String order){
+    public String buildURL(String order) {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https")
                 .authority(Constants.BASE_URL)

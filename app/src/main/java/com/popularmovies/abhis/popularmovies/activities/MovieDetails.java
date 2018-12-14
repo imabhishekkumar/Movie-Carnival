@@ -50,7 +50,7 @@ import java.util.Objects;
 public class MovieDetails extends AppCompatActivity implements LoaderManager.LoaderCallbacks<LiveData<MovieData>> {
     private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV, trailerTV, reviewTV;
     private ImageView moviePosterIV, bannerIV;
-    private ImageButton movieFavourite;
+    private ImageButton movieFavourite, movieUnfavourite;
     private RequestQueue queue;
     private RecyclerView mRecyclerView, mReviewRecyclerView;
     private MovieTrailerAdapter trailerAdapter;
@@ -78,7 +78,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         reviewTV = findViewById(R.id.ReviewTV);
         moviePosterIV = findViewById(R.id.moviePosterID);
         bannerIV = findViewById(R.id.banner);
-        movieFavourite = findViewById(R.id.button);
+        movieUnfavourite = findViewById(R.id.unfavBtn);
+        movieFavourite = findViewById(R.id.favBtn);
         queue = Volley.newRequestQueue(this);
         mRecyclerView = findViewById(R.id.trailer_recyclerViewID);
         mRecyclerView.setHasFixedSize(true);
@@ -113,18 +114,8 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
                 .placeholder(R.drawable.loading)
                 .into(bannerIV);
         buildURL(intent.getStringExtra("movie_id"));
-        final LiveData<List<MovieData>> movie = movieDatabase.moviesDao().getAllMovies();
-        movie.observe(this, new Observer<List<MovieData>>() {
-            @Override
-            public void onChanged(@Nullable List<MovieData> movieData) {
-                for (int i = 0; i < movieData.size(); i++) {
-                    if (Objects.equals(String.valueOf(movieID), movieData.get(i).getMovieID())) {
-                        movieFavourite.setBackgroundResource(R.drawable.like);
-                    }
 
-                }
-            }
-        });
+       setFavBtn(movieID);
         LoaderManager loaderManager = getSupportLoaderManager();
         Loader<String> loader = loaderManager.getLoader(LOADER);
 
@@ -144,20 +135,24 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         });
 
 
-        //  VideoList= getMovieKey(buildTrailerURL());
-        //ReviewList= getTrailer(buildReviewURL());
-
-
+        movieUnfavourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MovieData moviesResultObject = new MovieData(movieTitle,movieDesc,moviePoster,movieRating,movieRelease,String.valueOf(movieID));
+                doUnfavourite(moviesResultObject);
+                movieDatabase.moviesDao().deleteMovies(moviesResultObject);
+                movieFavourite.setVisibility(View.VISIBLE);
+                movieUnfavourite.setVisibility(View.GONE);
+            }
+        });
         movieFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                doFavourite();
-                //   moviesInDatabaseList = (List<MovieData>) movieDatabase.moviesDao().getAllMovies();
-
-                // MovieData moviesResultObject = new MovieData(movieTitle,movieDesc,moviePoster,movieRating,movieRelease,String.valueOf(movieID));
-
-
+                MovieData moviesResultObject = new MovieData(movieTitle,movieDesc,moviePoster,movieRating,movieRelease,String.valueOf(movieID));
+                doFavourite(moviesResultObject);
+                movieDatabase.moviesDao().insertMovie(moviesResultObject);
+                movieFavourite.setVisibility(View.GONE);
+                movieUnfavourite.setVisibility(View.VISIBLE);
             }
         });
 
@@ -166,60 +161,91 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         mReviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         Key = intent.getStringExtra("movie_id");
 
-        //  VideoList= getMovieKey(buildTrailerURL());
-        // ReviewList=getTrailer(buildReviewURL());
 
     }
 
-    private void doFavourite() {
+    private void setFavBtn(int movieID) {
+        final LiveData<MovieData> movie= movieDatabase.moviesDao().getMoviesLiveData(String.valueOf(movieID));
+       movie.observe(this, new Observer<MovieData>() {
+           @Override
+           public void onChanged(@Nullable MovieData movieData) {
+               if(movieData==null){
+                   movieFavourite.setVisibility(View.VISIBLE);
+                   movieUnfavourite.setVisibility(View.GONE);
+               }
+               else{
+                   movieFavourite.setVisibility(View.GONE);
+                   movieUnfavourite.setVisibility(View.VISIBLE);
 
-        final LiveData<List<MovieData>> movie = movieDatabase.moviesDao().getAllMovies();
-        final MovieData moviesResultObject = new MovieData(movieTitle, movieDesc, moviePoster, movieRating, movieRelease, String.valueOf(movieID));
+               }
+           }
+       });
+
+
+
+
+    }
+
+    private void doUnfavourite(final MovieData moviesResultObject) {
+
+        final LiveData<List<MovieData>> movie= movieDatabase.moviesDao().getAllMovies();
+
         movie.observe(this, new Observer<List<MovieData>>() {
             @Override
-            public void onChanged(@Nullable List<MovieData> movieData) {
+            public void onChanged(@Nullable List<MovieData> movieData)
+            {
                 int i = 0;
-                do {
+                do{
 
-                    if (movieData.size() == 0) {
-                        Toast.makeText(getApplicationContext(), Constants.ADDED_FAV, Toast.LENGTH_SHORT).show();
-                        movieFavourite.setBackgroundResource(R.drawable.like);
-                        movieDatabase.moviesDao().insertMovie(moviesResultObject);
-
-                        break;
-                    }
-
-                    if (Objects.equals(moviesResultObject.getMovieID(), movieData.get(i).getMovieID())) {
-                        Toast.makeText(getApplicationContext(), Constants.REMOVED_FAV, Toast.LENGTH_SHORT).show();
-                        movieFavourite.setBackgroundResource(R.drawable.unlike);
-                        movieDatabase.moviesDao().deleteMovies(moviesResultObject);
+                    assert movieData != null;
+                    if(Objects.equals(moviesResultObject.getMovieID(),movieData.get(i).getMovieID()))
+                    {
+                        Toast.makeText(getApplicationContext(),Constants.REMOVED_FAV,
+                                Toast.LENGTH_SHORT).show();
 
 
                         break;
                     }
 
-                    if (i == (movieData.size() - 1)) {
-                        Toast.makeText(getApplicationContext(), "Movie added to Favourites", Toast.LENGTH_SHORT).show();
-                        movieFavourite.setBackgroundResource(R.drawable.like);
-                        movieDatabase.moviesDao().insertMovie(moviesResultObject);
-
-                        break;
-                    }
                     i++;
-                } while (i < movieData.size());
-
+                }while (i < movieData.size());
             }
         });
     }
 
-      /*      private void doSomething() {
+    private void doFavourite(final MovieData moviesResultObject) {
+        final LiveData<List<MovieData>> movie= movieDatabase.moviesDao().getAllMovies();
+
+        movie.observe(this, new Observer<List<MovieData>>() {
+            @Override
+            public void onChanged(@Nullable List<MovieData> movieData)
+            {
+                int i = 0;
+                do{
+                    assert movieData != null;
+                    if(movieData.size() == 0)
+                    {
+                        Toast.makeText(getApplicationContext(),Constants.ADDED_FAV,
+                                Toast.LENGTH_SHORT).show();
 
 
+                        break;
+                    }
+
+                    if(i == (movieData.size() - 1))
+                    {
+                        Toast.makeText(getApplicationContext(),"Movie added to Favourites",
+                                Toast.LENGTH_SHORT).show();
 
 
-                });
+                        break;
+                    }
+                    i++;
+                }while (i < movieData.size());
             }
-*/
+        });
+    }
+
 
     private ArrayList<ReviewData> getTrailer(String url) {
         ReviewList.clear();
@@ -258,7 +284,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-//                Log.d("Error", error.getMessage());
+
             }
         });
         queue.add(arrayRequest);

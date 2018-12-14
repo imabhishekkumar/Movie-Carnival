@@ -153,16 +153,29 @@
             app:layout_constraintTop_toBottomOf="@+id/ReviewTV" />
 
         <ImageButton
-            android:id="@+id/button"
+            android:id="@+id/unfavBtn"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_margin="8dp"
             android:background="#212121"
+            android:contentDescription="@string/imagebtn"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:src="@drawable/like"
+            app:layout_constraintStart_toEndOf="@+id/moviePosterID"
+            app:layout_constraintTop_toBottomOf="@+id/movieVoteID" />
+        <ImageButton
+            android:id="@+id/favBtn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="8dp"
+            android:background="#212121"
+            android:contentDescription="@string/imagebtn"
             android:scaleType="centerCrop"
             android:src="@drawable/unlike"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/moviePosterID"
-            app:layout_constraintTop_toBottomOf="@+id/movieVoteID"
-            android:contentDescription="@string/imagebtn" />
+            app:layout_constraintTop_toBottomOf="@+id/movieVoteID" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
