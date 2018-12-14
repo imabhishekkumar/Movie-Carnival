@@ -139,10 +139,12 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onClick(View view) {
                 MovieData moviesResultObject = new MovieData(movieTitle,movieDesc,moviePoster,movieRating,movieRelease,String.valueOf(movieID));
-                doUnfavourite(moviesResultObject);
+             //   doUnfavourite(moviesResultObject);
                 movieDatabase.moviesDao().deleteMovies(moviesResultObject);
                 movieFavourite.setVisibility(View.VISIBLE);
                 movieUnfavourite.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(),Constants.REMOVED_FAV,
+                        Toast.LENGTH_SHORT).show();
             }
         });
         movieFavourite.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +188,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    private void doUnfavourite(final MovieData moviesResultObject) {
+   /* private void doUnfavourite(final MovieData moviesResultObject) {
 
         final LiveData<List<MovieData>> movie= movieDatabase.moviesDao().getAllMovies();
 
@@ -200,8 +202,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
                     assert movieData != null;
                     if(Objects.equals(moviesResultObject.getMovieID(),movieData.get(i).getMovieID()))
                     {
-                        Toast.makeText(getApplicationContext(),Constants.REMOVED_FAV,
-                                Toast.LENGTH_SHORT).show();
+
 
 
                         break;
@@ -211,7 +212,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
                 }while (i < movieData.size());
             }
         });
-    }
+    }*/
 
     private void doFavourite(final MovieData moviesResultObject) {
         final LiveData<List<MovieData>> movie= movieDatabase.moviesDao().getAllMovies();
