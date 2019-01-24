@@ -7,4 +7,8 @@
     <string name="imagebtn">Imagebtn</string>
     <string name="trailer">Trailer</string>
     <string name="overview">Overview</string>
+    <string name="movie_director">MOVIE DIRECTOR</string>
+    <string name="votes">VOTES</string>
+    <string name="rating">RATING</string>
+    <string name="release">RELEASE</string>
 </resources>

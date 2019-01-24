@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
         movieDatabase = MovieDatabase.getInstance(MainActivity.this);
         actionBar = getSupportActionBar();
         actionBar.setTitle("  Movie Time");
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFEB3B")));
+        actionBar.set
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000")));
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setIcon(R.drawable.movie_tickets);
         // getSupportLoaderManager().initLoader(LOADER, null, this);
@@ -176,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
                         movieData.setMovieTitle(movieObj.getString(Constants.TITLE_KEY));
                         movieData.setMovieImg(Constants.BASE_POSTER_URL + movieObj.getString(Constants.POSTER_KEY));
                         movieData.setMovieID(movieObj.getString(Constants.ID));
+                        movieData.setMovieVotes(movieObj.getString(Constants.VOTES));
+                      //  movieData.setMovieDirector(movieObj.getString(Constants.DIRECTOR));
+                        movieData.setMovieID(movieObj.getString(Constants.ID));
                         movieData.setMovieDesc(movieObj.getString(Constants.SYMBOSIS_KEY));
                         movieData.setMovieRating(movieObj.getString(Constants.RATING_KEY));
                         movieData.setMovieRelease(movieObj.getString(Constants.RELEASE_KEY));
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         queue.add(arrayRequest);
         return movieList;
     }
-
+//https://api.themoviedb.org/3/movie/popular/api_key=ffb376532eb8191f70f30d69fbc249c1
 
     public String buildURL(String order) {
         Uri.Builder builder = new Uri.Builder();

@@ -6,6 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+
 @Entity(tableName = "moviesfav")
 public class MovieData implements Serializable {
     @PrimaryKey
@@ -14,8 +15,14 @@ public class MovieData implements Serializable {
     private String movieTitle;
     private String movieDesc;
     private String movieImg;
+    private String movieVotes;
+    private String movieDirector;
     private String movieRating;
     private String movieRelease;
+
+    @Ignore
+    public MovieData() {
+    }
 
 
     public MovieData(String movieTitle, String movieDesc, String movieImg, String movieRating, String movieRelease, String movieID) {
@@ -28,9 +35,22 @@ public class MovieData implements Serializable {
     }
 
 
-    @Ignore
-    public MovieData() {
+    public String getMovieVotes() {
+        return movieVotes;
     }
+
+    public void setMovieVotes(String movieVotes) {
+        this.movieVotes = movieVotes;
+    }
+
+    public String getMovieDirector() {
+        return movieDirector;
+    }
+
+    public void setMovieDirector(String movieDirector) {
+        this.movieDirector = movieDirector;
+    }
+
     public String getMovieID() {
         return movieID;
     }
@@ -78,8 +98,6 @@ public class MovieData implements Serializable {
     public void setMovieRelease(String movieRelease) {
         this.movieRelease = movieRelease;
     }
-
-
 
 
 }

@@ -91,6 +91,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
                     intent.putExtra("movie_ratings", mMovieDataArray.get(pos).getMovieRating());
                     intent.putExtra("movie_description", mMovieDataArray.get(pos).getMovieDesc());
                     intent.putExtra("movie_release", mMovieDataArray.get(pos).getMovieRelease());
+                    intent.putExtra("movie_votes", mMovieDataArray.get(pos).getMovieVotes());
 
                     context.startActivity(intent);
                 }

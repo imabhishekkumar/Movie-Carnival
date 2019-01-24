@@ -48,14 +48,14 @@ import java.util.Objects;
 
 
 public class MovieDetails extends AppCompatActivity implements LoaderManager.LoaderCallbacks<LiveData<MovieData>> {
-    private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV, trailerTV, reviewTV;
+    private TextView movieTitleTV, movieDetailsTV, movieVoteTV, movieReleasedTV, trailerTV, reviewTV,movieVotesTV;
     private ImageView moviePosterIV, bannerIV;
     private ImageButton movieFavourite, movieUnfavourite;
     private RequestQueue queue;
     private RecyclerView mRecyclerView, mReviewRecyclerView;
     private MovieTrailerAdapter trailerAdapter;
     private MovieReviewAdapter reviewAdapter;
-    private String Key, movieTitle, movieDesc, movieRelease, movieRating, moviePoster;
+    private String Key, movieTitle, movieDesc, movieRelease, movieRating, moviePoster,movieVotes;
     private ArrayList<TrailerData> VideoList;
     private ArrayList<ReviewData> ReviewList;
     private static List<MovieData> moviesInDatabaseList;
@@ -76,6 +76,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         movieReleasedTV = findViewById(R.id.movieReleasedID);
         trailerTV = findViewById(R.id.TrailerTV);
         reviewTV = findViewById(R.id.ReviewTV);
+        movieVotesTV=findViewById(R.id.movieVotes);
         moviePosterIV = findViewById(R.id.moviePosterID);
         bannerIV = findViewById(R.id.banner);
         movieUnfavourite = findViewById(R.id.unfavBtn);
@@ -95,11 +96,13 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         movieRelease = intent.getStringExtra("movie_release");
         movieID = Integer.parseInt(intent.getStringExtra("movie_id"));
         moviePoster = intent.getStringExtra("movie_poster");
+        movieVotes = intent.getStringExtra("movie_votes");
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFEB3B")));
         movieReleasedTV.setText(movieRelease);
         movieTitleTV.setText(movieTitle);
         movieDetailsTV.setText(movieDesc);
         movieVoteTV.setText(movieRating);
+        movieVotesTV.setText(movieVotes);
         actionBar.setTitle(movieTitle);
         trailerTV.setVisibility(View.INVISIBLE);
         reviewTV.setVisibility(View.INVISIBLE);
@@ -188,31 +191,7 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-   /* private void doUnfavourite(final MovieData moviesResultObject) {
 
-        final LiveData<List<MovieData>> movie= movieDatabase.moviesDao().getAllMovies();
-
-        movie.observe(this, new Observer<List<MovieData>>() {
-            @Override
-            public void onChanged(@Nullable List<MovieData> movieData)
-            {
-                int i = 0;
-                do{
-
-                    assert movieData != null;
-                    if(Objects.equals(moviesResultObject.getMovieID(),movieData.get(i).getMovieID()))
-                    {
-
-
-
-                        break;
-                    }
-
-                    i++;
-                }while (i < movieData.size());
-            }
-        });
-    }*/
 
     private void doFavourite(final MovieData moviesResultObject) {
         final LiveData<List<MovieData>> movie= movieDatabase.moviesDao().getAllMovies();

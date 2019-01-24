@@ -35,4 +35,6 @@ public class Constants {
     public static final String REMOVED_FAV = "Movie removed from Favourites" ;
 
     public static final String FAVORITES ="favourites" ;
+    public static final String VOTES = "vote_count";
+    public static final String DIRECTOR = "";
 }
