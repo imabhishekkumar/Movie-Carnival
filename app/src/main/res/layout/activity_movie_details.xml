@@ -10,6 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_margin="0dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/AppTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Movie Time"
+            app:titleTextColor="#fff" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/bg_details"
@@ -161,7 +175,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ReviewTV">
 
-                <com.popularmovies.abhis.popularmovies.Model.MovieRecylerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/review_recyclerViewID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

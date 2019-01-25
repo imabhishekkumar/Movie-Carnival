@@ -97,13 +97,11 @@ public class MovieDetails extends AppCompatActivity implements LoaderManager.Loa
         movieID = Integer.parseInt(intent.getStringExtra("movie_id"));
         moviePoster = intent.getStringExtra("movie_poster");
         movieVotes = intent.getStringExtra("movie_votes");
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFEB3B")));
         movieReleasedTV.setText(movieRelease);
         movieTitleTV.setText(movieTitle);
         movieDetailsTV.setText(movieDesc);
         movieVoteTV.setText(movieRating);
         movieVotesTV.setText(movieVotes);
-        actionBar.setTitle(movieTitle);
         trailerTV.setVisibility(View.INVISIBLE);
         reviewTV.setVisibility(View.INVISIBLE);
 

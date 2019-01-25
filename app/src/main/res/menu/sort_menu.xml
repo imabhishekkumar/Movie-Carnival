@@ -2,10 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/sort_popularity"
         android:title="@string/sort_popularity"
+        android:icon="@drawable/outline_play_circle_filled_white_24"
        />
     <item android:id="@+id/sort_ratings"
-        android:title="@string/sort_ratings" />
+        android:title="@string/sort_ratings"
+        android:icon="@drawable/outline_thumb_up_24"/>
+
     <item android:id="@+id/sort_fav"
-        android:title="@string/sort_fav" />
+        android:title="@string/sort_fav"
+        android:icon="@drawable/outline_turned_in_not_24"/>
 
 </menu>

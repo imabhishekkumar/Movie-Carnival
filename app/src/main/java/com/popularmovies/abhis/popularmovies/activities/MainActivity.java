@@ -11,13 +11,17 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,10 +34,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.popularmovies.abhis.popularmovies.BuildConfig;
 import com.popularmovies.abhis.popularmovies.Database.MovieDatabase;
 import com.popularmovies.abhis.popularmovies.Model.MovieData;
 import com.popularmovies.abhis.popularmovies.R;
+import com.popularmovies.abhis.popularmovies.Utils.BottomNavigationBarBehaviour;
 import com.popularmovies.abhis.popularmovies.Utils.Constants;
 
 import org.json.JSONArray;
@@ -50,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private RequestQueue queue;
     private MovieDatabase movieDatabase;
-    android.support.v7.app.ActionBar actionBar;
+    private BottomNavigationView bottomNavigation;
+    Toolbar actionBar;
     private static final int LOADER = 2;
     private String currentOrder = Constants.SORT_BY_POPULAR;
 
@@ -59,17 +66,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         queue = Volley.newRequestQueue(this);
-
         movieDatabase = MovieDatabase.getInstance(MainActivity.this);
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("  Movie Time");
-        actionBar.set
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000")));
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setIcon(R.drawable.movie_tickets);
+        actionBar = findViewById(R.id.toolbar);
+        setSupportActionBar(actionBar);
+
         // getSupportLoaderManager().initLoader(LOADER, null, this);
         mRecyclerView = findViewById(R.id.recyclerViewID);
         mRecyclerView.setHasFixedSize(true);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigation.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBarBehaviour());
+
+
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
             mRecyclerView.setLayoutManager(gridLayoutManager);
@@ -83,6 +93,24 @@ public class MainActivity extends AppCompatActivity {
         else
             Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
     }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+                switch (item.getItemId()) {
+                    case R.id.sort_ratings:
+                        currentOrder = Constants.SORT_BY_HIGHEST_RATED;
+                        updateUI();
+                        break;
+                    case R.id.sort_popularity:
+                        currentOrder = Constants.SORT_BY_POPULAR;
+                        updateUI();
+                        break;
+                    case R.id.sort_fav:
+                        currentOrder = Constants.FAVORITES;
+                        showFavorites();
+                        break;
+                }
+                return false;
+            };
 
 
     private boolean checkConnection(Context applicationContext) {
@@ -178,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         movieData.setMovieImg(Constants.BASE_POSTER_URL + movieObj.getString(Constants.POSTER_KEY));
                         movieData.setMovieID(movieObj.getString(Constants.ID));
                         movieData.setMovieVotes(movieObj.getString(Constants.VOTES));
-                      //  movieData.setMovieDirector(movieObj.getString(Constants.DIRECTOR));
+                        //  movieData.setMovieDirector(movieObj.getString(Constants.DIRECTOR));
                         movieData.setMovieID(movieObj.getString(Constants.ID));
                         movieData.setMovieDesc(movieObj.getString(Constants.SYMBOSIS_KEY));
                         movieData.setMovieRating(movieObj.getString(Constants.RATING_KEY));

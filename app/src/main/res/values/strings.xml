@@ -11,4 +11,7 @@
     <string name="votes">VOTES</string>
     <string name="rating">RATING</string>
     <string name="release">RELEASE</string>
+    <string name="popularity">Popular</string>
+    <string name="ratings">Top Rated</string>
+    <string name="favourites">Favourite</string>
 </resources>
