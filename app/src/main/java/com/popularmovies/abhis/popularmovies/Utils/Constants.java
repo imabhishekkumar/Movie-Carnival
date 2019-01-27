@@ -14,6 +14,10 @@ public class Constants {
 
     final public static String SORT_BY_POPULAR = "popular";
 
+    final public static String SORT_BY_UPCOMING = "upcoming";
+
+    final public static String SORT_BY_NOW_PLAYING = "now_playing";
+
     final public static String ID = "id";
 
     final public static String SORT_BY_HIGHEST_RATED = "top_rated";
@@ -36,5 +40,6 @@ public class Constants {
 
     public static final String FAVORITES ="favourites" ;
     public static final String VOTES = "vote_count";
-    public static final String DIRECTOR = "";
+    public static final String GITHUB = "https://github.com/imabhishekkumar";
+    public static final String LINKEDIN = "https://www.linkedIn.com/in/abhishekkumar01/" ;
 }

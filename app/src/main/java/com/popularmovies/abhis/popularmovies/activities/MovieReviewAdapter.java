@@ -23,10 +23,6 @@ import at.blogc.android.views.ExpandableTextView;
 public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.Holder> {
     private Context context;
     private List<ReviewData> mReviewDataArray;
-    private TextView mAuthor, mReview;
-    private LinearLayout parentView;
-    private ExpandableTextView expandableTextView;
-    private ImageButton buttonToggle;
 
 
     public MovieReviewAdapter(Context context, List<ReviewData> mReviewDataArray) {
@@ -44,33 +40,21 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, int i) {
+    public void onBindViewHolder(final Holder holder, int i) {
         ReviewData currentReview = mReviewDataArray.get(i);
-        mAuthor.setText(currentReview.getAuthor());
+        holder.mAuthor.setText(currentReview.getAuthor());
 
-        expandableTextView.setInterpolator(new OvershootInterpolator());
-        expandableTextView.setText(currentReview.getReview());
-        buttonToggle.setOnClickListener(view -> {
-            buttonToggle.setImageResource(expandableTextView.isExpanded() ? R.drawable.outline_expand_less_24 : R.drawable.outline_expand_more_24);
-            expandableTextView.toggle();
+        holder.expandableTextView.setInterpolator(new OvershootInterpolator());
+        holder.expandableTextView.setText(currentReview.getReview());
+        holder.buttonToggle.setOnClickListener(view -> {
+            holder.buttonToggle.setImageResource(holder.expandableTextView.isExpanded() ? R.drawable.outline_expand_less_24 : R.drawable.outline_expand_more_24);
+            holder.expandableTextView.toggle();
         });
 
-     /*   itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (expandableTextView.isExpanded()) {
-                    Toast.makeText(context, "Collapse", Toast.LENGTH_SHORT).show();
-                    buttonToggle.setImageResource(R.drawable.outline_expand_less_24);
-                    expandableTextView.collapse();
-
-                } else {
-                    Toast.makeText(context, "Expand", Toast.LENGTH_SHORT).show();
-                    expandableTextView.expand();
-                    buttonToggle.setImageResource(R.drawable.outline_expand_more_24);
-
-                }
-            }
-        });*/
+        holder.parentView.setOnClickListener(view -> {
+            holder.buttonToggle.setImageResource(holder.expandableTextView.isExpanded() ? R.drawable.outline_expand_less_24 : R.drawable.outline_expand_more_24);
+            holder.expandableTextView.toggle();
+        });
 
     }
 
@@ -80,6 +64,10 @@ public class MovieReviewAdapter extends RecyclerView.Adapter<MovieReviewAdapter.
     }
 
     public class Holder extends RecyclerView.ViewHolder {
+        private TextView mAuthor, mReview;
+        private LinearLayout parentView;
+        private ExpandableTextView expandableTextView;
+        private ImageButton buttonToggle;
 
         public Holder(@NonNull View itemView, final Context context) {
             super(itemView);

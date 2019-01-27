@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_margin="0dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/AppTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="Movie Time"
-            app:titleTextColor="#fff" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/bg_details"
@@ -58,11 +49,11 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="TITLE"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="30sp"
+                android:textSize="22sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.499"
@@ -74,11 +65,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="XX/XX/XXXX"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -88,13 +79,11 @@
                 android:id="@+id/movieDetialsID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/font"
                 android:padding="8dp"
                 android:textColor="#fff"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -104,10 +93,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView2"
                 app:layout_constraintHorizontal_bias="0.575"
@@ -120,10 +109,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="44dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="@string/overview"
                 android:textColor="#fff"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieVotes" />
 
@@ -133,10 +122,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="@string/trailer"
                 android:textColor="#fff"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieDetialsID" />
 
@@ -153,20 +142,64 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.387"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TrailerTV" />
+                app:layout_constraintTop_toBottomOf="@+id/TrailerTV" >
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/genre_TVdetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/font"
+                android:text="@string/genre"
+                android:textColor="#fff"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/trailer_recyclerViewID" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/genre_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genre_TVdetails"/>
+
+
+            <TextView
+                android:id="@+id/casts_TV_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Casts"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/font"
+                android:textColor="#fff"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/genre_recyclerView" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/casts_recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/casts_TV_details" />
 
             <TextView
                 android:id="@+id/ReviewTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/font"
                 android:text="@string/reviews"
                 android:textColor="#fff"
-                android:textSize="28sp"
+                android:textSize="22sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/trailer_recyclerViewID" />
+                app:layout_constraintTop_toBottomOf="@+id/casts_recyclerView"/>
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -184,7 +217,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="#212121"
-                    android:nestedScrollingEnabled="false"
+                    android:nestedScrollingEnabled="true"
                     android:orientation="vertical" />
             </FrameLayout>
 
@@ -193,12 +226,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="144dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:layout_marginEnd="100dp"
+                android:fontFamily="@font/font"
                 android:text="@string/rating"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieTitleID" />
@@ -207,13 +240,13 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="@string/release"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieTitleID" />
@@ -222,13 +255,13 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="148dp"
+                android:layout_marginStart="100dp"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="@string/votes"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieReleasedID" />
@@ -238,12 +271,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="100dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:layout_marginEnd="88dp"
+                android:fontFamily="@font/font"
                 android:text="@string/movie_director"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -255,11 +288,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:text="600"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -270,49 +303,89 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/hammer_smith_one"
+                android:fontFamily="@font/font"
                 android:textAlignment="center"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textView5"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/favBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="18dp"
-                android:layout_marginBottom="18dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/imagebtn"
-                android:visibility="gone"
-                app:borderWidth="0dp"
-                app:rippleColor="#fd3018"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"
-                app:srcCompat="@drawable/unlike" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/unfavBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_marginEnd="18dp"
-                android:layout_marginBottom="18dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="@string/imagebtn"
-                android:visibility="gone"
-                app:borderWidth="0dp"
-                app:rippleColor="#fd3018"
-                app:srcCompat="@drawable/like"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="parent"/>
         </android.support.constraint.ConstraintLayout>
 
 
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 
 </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/imagebtn"
+        android:visibility="gone"
+        app:borderWidth="0dp"
+        app:rippleColor="#fd3018"
+        app:srcCompat="@drawable/unlike" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/unfavBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/imagebtn"
+        android:visibility="gone"
+        app:borderWidth="0dp"
+        app:rippleColor="#fd3018"
+        app:srcCompat="@drawable/like" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="start"
+        android:layout_margin="0dp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Movie Time"
+        app:titleTextColor="#fff">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/outline_arrow_back_24"
+            android:visibility="visible" />
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/font"
+                android:text="@string/app_name"
+                android:textColor="@color/titleText"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                 />
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</android.support.design.widget.CoordinatorLayout>

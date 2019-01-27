@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Movie Time</string>
+    <string name="app_name">Movie Carnival</string>
     <string name="sort_popularity">Order by Popularity</string>
     <string name="sort_ratings">Order by Ratings</string>
     <string name="sort_fav">Favourites</string>
@@ -11,7 +11,8 @@
     <string name="votes">VOTES</string>
     <string name="rating">RATING</string>
     <string name="release">RELEASE</string>
-    <string name="popularity">Popular</string>
-    <string name="ratings">Top Rated</string>
-    <string name="favourites">Favourite</string>
+    <string name="sort_upcoming">Upcoming</string>
+    <string name="sort_now_playing">Now Playing</string>
+    <string name="enterKeyword">Search for movies</string>
+    <string name="genre">Genres</string>
 </resources>

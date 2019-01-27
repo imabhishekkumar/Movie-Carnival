@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/sort_popularity"
+        android:enabled="true"
         android:title="@string/sort_popularity"
-        android:icon="@drawable/outline_play_circle_filled_white_24"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/google_analytics"
        />
     <item android:id="@+id/sort_ratings"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
         android:title="@string/sort_ratings"
         android:icon="@drawable/outline_thumb_up_24"/>
 
+    <item android:id="@+id/sort_upcoming"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/sort_upcoming"
+        android:icon="@drawable/calendar_blank_outline"/>
+
+    <item android:id="@+id/sort_now_playing"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="@string/sort_now_playing"
+        android:icon="@drawable/outline_play_circle_filled_white_24"/>
+
     <item android:id="@+id/sort_fav"
+        android:enabled="true"
         android:title="@string/sort_fav"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/outline_turned_in_not_24"/>
 
 </menu>

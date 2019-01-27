@@ -11,7 +11,7 @@ import com.popularmovies.abhis.popularmovies.Model.MovieData;
 public abstract class MovieDatabase extends RoomDatabase {
 
     private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "movieDatabase";
+    private static final String DATABASE_NAME = "movieDB";
     private static MovieDatabase sInstance;
 
     public static MovieDatabase getInstance(Context context) {
