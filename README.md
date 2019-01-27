@@ -6,5 +6,12 @@ You'll need to get an API Key from [The Movie Database](https://www.themoviedb.o
 Once you get the API key, place in in gradle.properties
 
 # Screenshots
-<img src="https://github.com/imabhishekkumar/PopularMovies_Stage2_Udacity/blob/master/MovieMain.png?raw=true" height="500" width="270">     <img src="https://github.com/imabhishekkumar/PopularMovies_Stage2_Udacity/blob/master/MovieDetails.png?raw=true" height="500" width="270">
-   
+![](https://github.com/imabhishekkumar/Movie-Carnival/blob/master/screenshots/banner.jpg?raw=true)
+<img src="https://github.com/imabhishekkumar/Movie-Carnival/blob/master/screenshots/home.png?raw=true" height="500"
+width="270">
+<img src="https://github.com/imabhishekkumar/Movie-Carnival/blob/master/screenshots/detailScreen.png?raw=true" height="500"
+width="270">
+<img src="https://github.com/imabhishekkumar/Movie-Carnival/blob/master/screenshots/details2.png?raw=true" height="500"
+width="270">
+<img src="https://github.com/imabhishekkumar/Movie-Carnival/blob/master/screenshots/search.png?raw=true" height="500"
+width="270">
