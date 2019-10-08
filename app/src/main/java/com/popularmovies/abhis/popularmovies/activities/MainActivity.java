@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
         toolbarSeach.setOnClickListener(view -> {
             toolbarLayout.setVisibility(View.INVISIBLE);
             mSearchView.setVisibility(View.VISIBLE);
+            mSearchView.setSearchFocused(true);
             mSearchView.setOnFocusChangeListener((view1, b) -> view1.requestFocus());
             mSearchView.setSearchText("");
             searchVisible=true;
