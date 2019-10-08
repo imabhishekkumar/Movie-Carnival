@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menu_about:
-                startActivity(new Intent(MainActivity.this,About.class));
+               // startActivity(new Intent(MainActivity.this,About.class));
                 break;
 
         }
